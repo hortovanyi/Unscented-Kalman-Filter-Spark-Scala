@@ -84,7 +84,7 @@ class UnscentedKalmanFilter extends UKFPredict with LaserUpdate with RadarUpdate
 
 
     logger.debug("predict x: " + x + " deltaTime: " + deltaTime)
-    logger.debug("predict P:" + P)
+    logger.debug("predict P: " + P)
     // prediction - scala matching needs lowercase first letter
     val (pXsigPred, px, pP) = prediction(x, P, deltaTime)
 
