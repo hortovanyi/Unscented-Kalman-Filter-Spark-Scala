@@ -134,10 +134,11 @@ trait UKFPredict extends UKFVariables{
     }
 
     //predicted state covariance matrix
-    for (i <- 0 until 2 * n_aug + 1) { //iterate over sigma points
+    for (i <- 1 until 2 * n_aug + 1) { //iterate over sigma points
 
       // state difference
-      val x_diff = XsigPred(0 to 4, i) - x
+//      val x_diff = XsigPred(0 to 4, i) - x
+      val x_diff = XsigPred(0 to 4, i) - XsigPred(0 to 4, 0)
 
       //angle normalization
       x_diff(3) = MathUtils.normalizeAngle(x_diff(3), 0.0)
@@ -184,8 +185,9 @@ trait UKFUpdate extends UKFVariables{
                                              zPred:StateVector, weights:WeightsVector): CoVarianceMatrix = {
     val S = DenseMatrix.zeros[Double](n_z, n_z)
 
-    for (i <- 0 until 2 * n_aug + 1) {
-      val zDiff =  Zsig(::,i) - zPred
+    for (i <- 1 until 2 * n_aug + 1) {
+//      val zDiff =  Zsig(::,i) - zPred
+      val zDiff =  Zsig(::,i) - Zsig(::,0)
       zDiff(1) = MathUtils.normalizeAngle(zDiff(1), 0.0)
       S :+= weights(i) * zDiff * zDiff.t
     }
@@ -222,10 +224,12 @@ trait UKFUpdate extends UKFVariables{
                                        x:StateVector, weights:WeightsVector): CrossCorrelationMatrix = {
     val Tc = DenseMatrix.zeros[Double](n_x, n_z)
 
-    for (i <- 0 until 2 * n_aug + 1) {
-      val zDiff =  Zsig(::,i) - zPred
+    for (i <- 1 until 2 * n_aug + 1) {
+//      val zDiff =  Zsig(::,i) - zPred
+      val zDiff =  Zsig(::,i) - Zsig(::,0)
       zDiff(1) = MathUtils.normalizeAngle(zDiff(1), 0.0)
-      val x_diff = XsigPred(0 to 4, i) - x
+//      val x_diff = XsigPred(0 to 4, i) - x
+      val x_diff = XsigPred(0 to 4, i) - XsigPred(0 to 4, 0)
       x_diff(3) = MathUtils.normalizeAngle(x_diff(3), 0.0)
       Tc :+= weights(i) * x_diff * zDiff.t
     }
