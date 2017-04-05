@@ -14,8 +14,8 @@ trait UKFVariables {
   val n_x: Int = 5 // state dimensions
   val n_aug: Int = 7 // augmented state dimensions
 
-  val std_a: Double = 3 // Process noise standard deviation longitudinal acceleration in m/s^2
-  val std_yawdd: Double = 0.9 // Process noise standard deviation yaw acceleration in rad/s^2
+  val std_a: Double = 0.45 // Process noise standard deviation longitudinal acceleration in m/s^2
+  val std_yawdd: Double = 0.55 // Process noise standard deviation yaw acceleration in rad/s^2
 
   val lambda: Double = 3 - n_aug //define spreading parameter
 
